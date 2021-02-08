@@ -1,25 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CleanArch.WebAPI.Data;
-using CleanArch.WebAPI.Helpers;
-using CleanArch.WebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CleanArch.WebAPI
 {
@@ -39,12 +27,6 @@ namespace CleanArch.WebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("UniversityIdentityDBConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
-            services.AddScoped<IUserServices, UserServices>();
-
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-            var appSetting = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSetting.Secret);
 
             services.AddAuthentication(options =>
             {
