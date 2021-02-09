@@ -7,7 +7,6 @@ using CleanArch.Application.Interfaces;
 using CleanArch.Application.Services;
 using CleanArch.Domain.Interfaces;
 using CleanArch.Infra.Data.Repository;
-using CleanArch.WebAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Infra.IoC
@@ -23,7 +22,7 @@ namespace CleanArch.Infra.IoC
             services.AddScoped<ICourseRepository, CourseRepository>();
 
             //WepAPIs
-            services.AddScoped<IUserServices, UserServices>();
+            //services.AddScoped<IUserServices, UserServices>();
         }
     }
 }
