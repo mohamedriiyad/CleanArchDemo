@@ -2,12 +2,9 @@
 
 namespace CleanArch.Domain.Interfaces
 {
-    public interface ICourseRepository
+    public interface ICourseRepository : IRepository<Course>
     {
-        Course Get(int id);
-        IEnumerable<Course> GetAll();
-        void Add(Course course);
-        void Delete(int id);
-        void Update(Course course);
+        IEnumerable<Course> GetTopSellingCourses(int count);
+        IEnumerable<Course> GetCoursesWithAuthors();
     }
 }

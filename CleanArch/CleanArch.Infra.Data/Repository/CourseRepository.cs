@@ -4,7 +4,7 @@ using CleanArch.Domain.Interfaces;
 
 namespace CleanArch.Infra.Data.Repository
 {
-    public class CourseRepository :ICourseRepository
+    public class CourseRepository : Repository<Course>, ICourseRepository
     {
         private readonly UniversityDbContext _context;
 
@@ -14,27 +14,12 @@ namespace CleanArch.Infra.Data.Repository
         }
 
 
-        public Course Get(int id)
+        public IEnumerable<Course> GetTopSellingCourses(int count)
         {
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Course> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Add(Course course)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(Course course)
+        public IEnumerable<Course> GetCoursesWithAuthors()
         {
             throw new System.NotImplementedException();
         }
