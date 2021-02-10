@@ -13,9 +13,30 @@ namespace CleanArch.Infra.Data.Repository
             _context = context;
         }
 
-        public IEnumerable<Course> GetCourses()
+
+        public Course Get(int id)
         {
-            return _context.Courses;
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<Course> GetAll()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Add(Course course)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(Course course)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
