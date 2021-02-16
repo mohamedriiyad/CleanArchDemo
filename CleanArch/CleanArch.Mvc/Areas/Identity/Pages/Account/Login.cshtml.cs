@@ -57,6 +57,12 @@ namespace CleanArch.Mvc.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            _logger.LogTrace(1001,"This trace log");
+            _logger.LogDebug("this is Debug log");
+            _logger.LogInformation("this is Information log");
+            _logger.LogWarning("this is Warning log");
+            _logger.LogError("this is Error log");
+            _logger.LogCritical("this is Critical log");
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
