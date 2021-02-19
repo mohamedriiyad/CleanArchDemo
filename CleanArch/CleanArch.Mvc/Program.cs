@@ -1,35 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CleanArch.Mvc
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main(string[] args) 
         {
-            var host = CreateHostBuilder(args).Build();
-            var logger = host.Services.GetRequiredService<ILogger<Program>>();
-            logger.LogError("We are in program.cs");
-            var typ = logger.GetType();
-            host.Run();
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
+
+            Serilog.Debugging.SelfLog.Enable(msg =>
+            {
+                Debug.Print(msg);
+                Debugger.Break();
+            });
+
+            try
+            {
+                Log.Information("Application Starting up.");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal(e, "The application cannot start!");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((context, logging) =>
-                {
-                    logging.ClearProviders();
-                    logging.AddConfiguration(context.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                    logging.AddDebug();
-                })
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
