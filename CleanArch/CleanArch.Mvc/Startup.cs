@@ -64,6 +64,7 @@ namespace CleanArch.Mvc
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSerilogRequestLogging();
+            
             app.UseRouting();
 
             app.UseAuthentication();

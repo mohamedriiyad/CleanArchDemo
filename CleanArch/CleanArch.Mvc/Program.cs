@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,22 +15,28 @@ namespace CleanArch.Mvc
     {
         public static void Main(string[] args) 
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            var log4netRepository = log4net.LogManager.GetRepository(Assembly.GetEntryAssembly());
+            log4net.Config.XmlConfigurator.Configure(log4netRepository, new FileInfo("log4net.config"));
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+             log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(Program));
 
-            Serilog.Debugging.SelfLog.Enable(msg =>
-            {
-                Debug.Print(msg);
-                Debugger.Break();
-            });
+            //var configuration = new ConfigurationBuilder()
+            //    .AddJsonFile("appsettings.json")
+            //    .Build();
+
+            //Log.Logger = new LoggerConfiguration()
+            //    .ReadFrom.Configuration(configuration)
+            //    .CreateLogger();
+
+            //Serilog.Debugging.SelfLog.Enable(msg =>
+            //{
+            //    Debug.Print(msg);
+            //    Debugger.Break();
+            //});
 
             try
             {
+                _log4net.Info("log4net Starting up.");
                 Log.Information("Application Starting up.");
                 CreateHostBuilder(args).Build().Run();
             }

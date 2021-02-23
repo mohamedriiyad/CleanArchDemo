@@ -26,4 +26,8 @@
     <Folder Include="Resources\Files\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CleanArch.Apllication\CleanArch.Application.csproj" />
+  </ItemGroup>
+
 </Project>

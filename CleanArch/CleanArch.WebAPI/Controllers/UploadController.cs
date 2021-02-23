@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Microsoft.Net.Http.Headers;
+using CleanArch.Application.Helper;
 
 namespace CleanArch.WebAPI.Controllers
 {
@@ -10,36 +10,6 @@ namespace CleanArch.WebAPI.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
-        //[HttpPost,DisableRequestSizeLimit]
-        //public IActionResult UploadFile()
-        //{
-        //    try
-        //    {
-        //        var file = Request.Form.Files[0];
-        //        var folderName = Path.Combine("Resources", "Files");
-        //        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-        //        if (file.Length > 0)
-        //        {
-        //            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"');
-        //            var fullPath = Path.Combine(pathToSave, fileName);
-        //            var dbPath = Path.Combine(folderName, fileName);
-        //            using (var stream = new FileStream(fullPath, FileMode.Create))
-        //            {
-        //                file.CopyTo(stream);
-        //            }
-        //            return Ok(new { dbPath });
-        //        }
-        //        else
-        //        {
-        //            return BadRequest();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex}");
-        //    }
-        //}
-
         [HttpPost, DisableRequestSizeLimit]
         public IActionResult UploadFiles()
         {
@@ -54,25 +24,16 @@ namespace CleanArch.WebAPI.Controllers
                     return BadRequest();
                 }
 
-                foreach (var file in files)
-                {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.ToString().Trim('"');
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    //var dbPath = Path.Combine(folderName, fileName);
-
-                    using (var stream = new FileStream(fullPath,FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
-
-                return Ok("All the files are created");
+                FileHelper.UploadAll(files, pathToSave);
+                return Ok("All Files Are Uploaded!");
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        
     }
 }
 
